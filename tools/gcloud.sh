@@ -24,7 +24,7 @@ EOF
     done <<< "$(ls -1 '/c/Program Files (x86)/Google/Cloud SDK/google-cloud-sdk/bin/' | grep \.cmd | cut -d. -f1)"
   else
     # install a versioned archive
-    curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-306.0.0-linux-x86_64.tar.gz | tar xz -C $gcloud_dir
+    curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-306.0.0-linux-x86_64.tar.gz | tar xz -C $gcloud_dir --strip-components 1
     ./$gcloud_dir/install.sh --quiet
     source $gcloud_dir/path.bash.inc
   fi
