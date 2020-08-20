@@ -1,5 +1,8 @@
 #!/bin/bash
 
+gcloud_dir="${1:-google-cloud-sdk}"
+mkdir -p $gcloud_dir
+
 if ! [ -x "$(command -v gcloud)" ]; then
   if hash choco 2>/dev/null; then
     choco install gcloudsdk --ignore-checksums
@@ -21,10 +24,9 @@ EOF
     done <<< "$(ls -1 '/c/Program Files (x86)/Google/Cloud SDK/google-cloud-sdk/bin/' | grep \.cmd | cut -d. -f1)"
   else
     # install a versioned archive
-    curl -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-306.0.0-linux-x86_64.tar.gz
-    tar xf google-cloud-sdk.tar.gz
-    ./google-cloud-sdk/install.sh --quiet
-    source google-cloud-sdk/path.bash.inc
+    curl -L https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-306.0.0-linux-x86_64.tar.gz | tar xz -C $gcloud_dir
+    ./$gcloud_dir/install.sh --quiet
+    source $gcloud_dir/path.bash.inc
   fi
 fi
 
